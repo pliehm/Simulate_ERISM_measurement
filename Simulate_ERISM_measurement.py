@@ -26,7 +26,7 @@ thickness_N = 1000
 
 
 
-
+    
 
 
 ####################################
@@ -43,9 +43,6 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import time
 
-# minimum and maximum thickness of elastomer in nanometer
-min_d = 1000
-max_d = 20000
 
 
 ta=time.time()
@@ -91,7 +88,7 @@ class Layer:
         self.permittivity=e_r
 
 
-### Define Layerstructure ###
+### Define Layer structure ###
 
 ## write in the order how your multilayer stack should look, the light will come from the side oft the last layer
 ## write it like: Layers.append(Layer('material', thickness, []) 
@@ -102,7 +99,7 @@ Layers=[]
 Layers.append(Layer('Au',15,[]))
 Layers.append(Layer('Elastomer_RT601',3000,[]))
 Layers.append(Layer('SIO2',50,[]))
-Layers.append(Layer('Au',15,[]))
+Layers.append(Layer('Au',10,[]))
 Layers.append(Layer('Cr',0.5,[]))
 # substrate
 
@@ -175,7 +172,7 @@ def tmm_waves(wave_min, wave_max):
 ## create empty array ##
 ########################
 
-ERISM = np.zeros(((wave_end-wave_start)/wave_step +1,100,thickness_N))
+ERISM = np.zeros(((wave_end-wave_start)/wave_step +1,10,thickness_N))
 ERISM_line = np.zeros(((wave_end-wave_start)/wave_step +1,thickness_N))
 
 for i in range(thickness_N):  
@@ -183,6 +180,7 @@ for i in range(thickness_N):
     print thickness
     Layers[1].thickness=thickness*1e-9  
     f, T, R = tmm_waves(wave_start,wave_end) # set wavelenght range
+
     for j in range(ERISM.shape[1]):
         ERISM[:,j,i] = R*10000 # just scaling with 10000 to make values more comparable to measurement
 
